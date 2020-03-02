@@ -1,6 +1,7 @@
 package problem1.model;
 
 import java.util.List;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import problem1.persist.DATABASE;
@@ -12,7 +13,7 @@ public class Clazz {
 	private String description;
 	private String studentsAssig;
 	
-	transient private List<Student> students;
+	transient private Set<Student> students;
 	
 	public Clazz(String code, String title, String description) {
 		super();
@@ -38,7 +39,7 @@ public class Clazz {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public List<Student> getStudents() {
+	public Set<Student> getStudents() {
 		return students;
 	}
 	

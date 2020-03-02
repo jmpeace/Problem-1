@@ -1,6 +1,7 @@
 package problem1.model;
 
 import java.util.List;
+import java.util.Set;
 import java.util.StringJoiner;
 
 import problem1.persist.DATABASE;
@@ -12,7 +13,7 @@ public class Student {
 	private String firstName;
 	private String classesAssig;
 	
-	private transient List<Clazz> classes;
+	private transient Set<Clazz> classes;
 	
 	public Student(String studentId, String lastName, String firstName) {
 		super();
@@ -40,11 +41,11 @@ public class Student {
 		this.firstName = firstName;
 	}
 
-	public List<Clazz> getClasses() {
+	public Set<Clazz> getClasses() {
 		return classes;
 	}
 
-	public void setClasses(List<Clazz> classes) {
+	public void setClasses(Set<Clazz> classes) {
 		this.classes = classes;
 	}
 

@@ -1,21 +1,23 @@
 package problem1.persist;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import problem1.model.Clazz;
 import problem1.model.Student;
 
 public class DATABASE {
 	
+	//MAIN DATA STORAGE
 	private static Map<String,Student> students = new LinkedHashMap<String,Student>();
 	private static Map<String,Clazz> classes  = new LinkedHashMap<String,Clazz>();
 	
-	private static Map<Clazz,List<Student>> studentsByClass = new HashMap<Clazz,List<Student>>();
-	private static Map<Student,List<Clazz>> classesByStudent = new HashMap<Student,List<Clazz>>();
+	//RELATIONSHIPS
+	private static Map<Clazz,Set<Student>> studentsByClass = new HashMap<Clazz,Set<Student>>();
+	private static Map<Student,Set<Clazz>> classesByStudent = new HashMap<Student,Set<Clazz>>();
 	
 	static  //test data
 	{ 
@@ -54,15 +56,15 @@ public class DATABASE {
 		
 		for(Student student:students)
 		{
-			List<Student> studentsByClassL = studentsByClass.get(clazz);
-			List<Clazz> classesByStudentL = classesByStudent.get(student);
+			Set<Student> studentsByClassL = studentsByClass.get(clazz);
+			Set<Clazz> classesByStudentL = classesByStudent.get(student);
 			
 			if(studentsByClassL==null)
-				studentsByClassL = new ArrayList<Student>();
+				studentsByClassL = new LinkedHashSet<Student>();
 			studentsByClassL.add(student);
 
 			if(classesByStudentL==null)
-				classesByStudentL = new ArrayList<Clazz>();
+				classesByStudentL = new LinkedHashSet<Clazz>();
 			classesByStudentL.add(clazz);
 			
 			studentsByClass.put(clazz, studentsByClassL);
@@ -74,6 +76,33 @@ public class DATABASE {
 		clazz.setStudentsByClass();
 	}
 
+
+	public static void addStudent(Student student) throws Exception {
+	
+		String id = student.getStudentId();
+		Student exists = students.get(id);
+		if(exists!=null) throw new Exception("Student exists");
+		
+		//Create New
+		students.put(id, student);
+		
+		//Assign Classes
+		String classesAssig = student.getClassesAssig();
+		if(classesAssig!=null)
+		{
+			String[] classesAssigA = classesAssig.split(",");
+			if(classesAssig!=null&&classes.size()>0)
+			for(String classAssig:classesAssigA)
+			{
+				Clazz clazz = classes.get(classAssig);
+				
+				if(clazz!=null)
+				addStudentsClasses(clazz, student);
+			}
+		}
+		
+	}
+	
 	public static Map<String, Student> getStudents() {
 		return students;
 	}
@@ -82,12 +111,13 @@ public class DATABASE {
 		return classes;
 	}
 
-	public static List<Clazz> getClassesByStudent(Student student) {
+	public static Set<Clazz> getClassesByStudent(Student student) {
 		return classesByStudent.get(student);
 	}
 
-	public static List<Student> getStudentsByClass(Clazz clazz) {
+	public static Set<Student> getStudentsByClass(Clazz clazz) {
 		return studentsByClass.get(clazz);
 	}
+
 
 }

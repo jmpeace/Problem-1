@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import problem1.model.Student;
+
 public class Util {
 	
 	private static final  String responseInError = "Undefined error.";
@@ -23,6 +25,13 @@ public class Util {
 		response.setCharacterEncoding("UTF-8");
 		out.print(gson.toJson(toRespond));
 		out.flush();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Object fromJson(String json, Class clazz) {
+		
+		if(json==null) return null;
+		return gson.fromJson(json, clazz);
 	}
 
 }
