@@ -1,8 +1,10 @@
 package problem1.persist;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -187,6 +189,65 @@ public class DATABASE {
 
 	public static Set<Student> getStudentsByClass(Clazz clazz) {
 		return studentsByClass.get(clazz);
+	}
+
+
+	public static List<Clazz> getClassesSearch(Map<String, String[]> parameters) {
+		
+		List<Clazz> result = new ArrayList<Clazz>();
+		
+		boolean hasCode = parameters.containsKey("Code");
+		boolean hasTitle = parameters.containsKey("Title");
+		boolean hasDescription = parameters.containsKey("Description");
+		
+		
+		String byCode = hasCode?parameters.get("Code")[0].toLowerCase():"";
+		String byTitle = hasTitle?parameters.get("Title")[0].toLowerCase():"";
+		String byDescription = hasDescription?parameters.get("Description")[0].toLowerCase():"";
+		
+		for(Clazz clazz:classes.values())
+		{
+			if(hasCode&&clazz.getCode().toLowerCase().equals(byCode))
+				result.add(clazz);
+			
+			if(hasTitle&&clazz.getTitle().toLowerCase().indexOf(byTitle)>=0)
+				result.add(clazz);
+			
+			if(hasDescription&&clazz.getDescription().toLowerCase().indexOf(byDescription)>=0)
+				result.add(clazz);
+		}
+		
+		return result;
+		
+	}
+
+
+	public static List<Student> getStudentsSearch(Map<String, String[]> parameters) {
+
+		List<Student> result = new ArrayList<Student>();
+		
+		boolean hasStudentId = parameters.containsKey("StudentId");
+		boolean hasLastName = parameters.containsKey("LastName");
+		boolean hasFirstName = parameters.containsKey("FirstName");
+		
+		
+		String byStudentId = hasStudentId?parameters.get("StudentId")[0].toLowerCase():"";
+		String byLastName = hasLastName?parameters.get("LastName")[0].toLowerCase():"";
+		String byFirstName = hasFirstName?parameters.get("FirstName")[0].toLowerCase():"";
+		
+		for(Student student:students.values())
+		{
+			if(hasStudentId&&student.getStudentId().toLowerCase().equals(byStudentId))
+				result.add(student);
+			
+			if(hasLastName&&student.getLastName().toLowerCase().indexOf(byLastName)>=0)
+				result.add(student);
+			
+			if(hasFirstName&&student.getFirstName().toLowerCase().indexOf(byFirstName)>=0)
+				result.add(student);
+		}
+		
+		return result;
 	}
 
 
