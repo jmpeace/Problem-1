@@ -10,7 +10,7 @@ public class Student {
 	private String studentId;
 	private String lastName;
 	private String firstName;
-	private String classesDesc;
+	private String classesAssig;
 	
 	private transient List<Clazz> classes;
 	
@@ -48,8 +48,8 @@ public class Student {
 		this.classes = classes;
 	}
 
-	public String getClassesDesc() {
-		return classesDesc;
+	public String getClassesAssig() {
+		return classesAssig;
 	}
 
 
@@ -61,7 +61,7 @@ public class Student {
 		if(classes!=null) {
 		for(Clazz clazz:classes)
 			joiner.add(clazz.getCode());
-		classesDesc = joiner.toString();}
+		classesAssig = joiner.toString();}
 	}
 	
 	
