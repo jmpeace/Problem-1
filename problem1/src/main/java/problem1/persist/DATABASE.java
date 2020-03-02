@@ -100,8 +100,18 @@ public class DATABASE {
 				addStudentsClasses(clazz, student);
 			}
 		}
+	}
+
+	public static void addClass(Clazz clazz) throws Exception {
+		String id = clazz.getCode();
+		Clazz exists = classes.get(id);
+		if(exists!=null) throw new Exception("Class exists");
+		
+		//Create New
+		classes.put(id, clazz);
 		
 	}
+
 	
 	public static Map<String, Student> getStudents() {
 		return students;
@@ -118,6 +128,8 @@ public class DATABASE {
 	public static Set<Student> getStudentsByClass(Clazz clazz) {
 		return studentsByClass.get(clazz);
 	}
+
+
 
 
 }
