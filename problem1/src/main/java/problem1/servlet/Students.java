@@ -25,11 +25,9 @@ public class Students extends HttpServlet {
 		if (pathInfo == null || pathInfo.equals("/")) {
 
 			Util.printAsJson(response, DATABASE.getStudents().values());
-			return;
 		} else {
 			String studentId = pathInfo.split("/")[1];
 			Util.printAsJson(response, DATABASE.getStudents().get(studentId));
-			return;
 		}
 	}
 
@@ -60,10 +58,38 @@ public class Students extends HttpServlet {
 			
 		} else {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
-			return;
 		}
 	}
 	
 	//UPDATE
 
+	
+	//DELETE
+	protected void doDelete(
+			HttpServletRequest request,
+			HttpServletResponse response) 
+					throws IOException, ServletException {
+
+		String pathInfo = request.getPathInfo();
+		if(pathInfo == null || pathInfo.equals("/")){
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+
+		String[] splits = pathInfo.split("/");
+		if(splits.length != 2) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+
+		String studentId = splits[1];
+		if(DATABASE.getStudents().get(studentId)==null) {
+			
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+		
+		DATABASE.removeStudent(studentId);
+		Util.printAsJson(response, studentId);
+	}
 }

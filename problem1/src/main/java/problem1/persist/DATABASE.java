@@ -125,6 +125,37 @@ public class DATABASE {
 			}
 		}
 	}
+	
+	public static void removeStudent(String studentId) {
+		
+		Student student = students.get(studentId);
+		
+		//remove from classes
+		Set<Clazz> classes = classesByStudent.get(student);
+		for(Clazz clazz:classes)
+		{
+			studentsByClass.get(clazz).remove(student);
+			clazz.setStudentsByClass();
+		}
+				
+		students.remove(studentId);
+	}
+	
+	public static void removeClass(String classCode) {
+
+		Clazz clazz = classes.get(classCode);
+		
+		//remove from students
+		Set<Student> students = studentsByClass.get(clazz);
+		for(Student student:students)
+		{
+			classesByStudent.get(student).remove(clazz);
+			student.setClassesByStudent();
+		}
+				
+		classes.remove(classCode);
+	}
+
 
 	
 	public static Map<String, Student> getStudents() {
@@ -142,6 +173,11 @@ public class DATABASE {
 	public static Set<Student> getStudentsByClass(Clazz clazz) {
 		return studentsByClass.get(clazz);
 	}
+
+
+	
+
+
 
 
 

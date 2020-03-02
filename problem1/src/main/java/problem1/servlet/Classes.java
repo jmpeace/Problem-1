@@ -25,12 +25,10 @@ public class Classes extends HttpServlet {
 		if(pathInfo == null || pathInfo.equals("/")){
 
 			Util.printAsJson(response, DATABASE.getClasses().values());
-			return;
 		}else
 		{
 			String code = pathInfo.split("/")[1];
 			Util.printAsJson(response, DATABASE.getClasses().get(code));
-			return;
 		}
 		
 	}
@@ -62,8 +60,35 @@ public class Classes extends HttpServlet {
 			
 		} else {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
+	
+	protected void doDelete(
+			HttpServletRequest request,
+			HttpServletResponse response) 
+					throws IOException, ServletException {
+
+		String pathInfo = request.getPathInfo();
+		if(pathInfo == null || pathInfo.equals("/")){
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 			return;
 		}
+
+		String[] splits = pathInfo.split("/");
+		if(splits.length != 2) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+
+		String classCode = splits[1];
+		if(DATABASE.getClasses().get(classCode)==null) {
+			
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+		
+		DATABASE.removeClass(classCode);
+		Util.printAsJson(response, classCode);
 	}
 
 	
