@@ -62,7 +62,47 @@ public class Students extends HttpServlet {
 	}
 	
 	//UPDATE
+	protected void doPut(
+			HttpServletRequest request,
+			HttpServletResponse response) 
+					throws IOException, ServletException {
 
+		String pathInfo = request.getPathInfo();
+
+		if(pathInfo == null || pathInfo.equals("/")){
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+		String[] splits = pathInfo.split("/");
+		if(splits.length != 2) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+		String studentId = splits[1];
+		if(DATABASE.getStudents().get(studentId)==null) {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
+		StringBuilder buffer = new StringBuilder();
+	    BufferedReader reader = request.getReader();
+	    String line;
+	    while ((line = reader.readLine()) != null) {
+	        buffer.append(line);
+	    }
+	    String payload = buffer.toString();
+	    
+		Student student = (Student) Util.fromJson(payload, Student.class);
+	    try {
+			DATABASE.updateStudent(student);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+	    
+	    Util.printAsJson(response, studentId);
+	}
 	
 	//DELETE
 	protected void doDelete(

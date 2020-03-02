@@ -101,6 +101,21 @@ public class DATABASE {
 			}
 		}
 	}
+	
+	public static void updateStudent(Student student) throws Exception {
+	
+		//Replace current
+		removeStudent(student.getStudentId());
+		addStudent(student);
+	}
+
+	public static void updateClass(Clazz clazz) throws Exception {
+		
+		//Replace current
+		removeClass(clazz.getCode());
+		addClass(clazz);
+	}
+
 
 	public static void addClass(Clazz clazz) throws Exception {
 		String id = clazz.getCode();
@@ -173,6 +188,9 @@ public class DATABASE {
 	public static Set<Student> getStudentsByClass(Clazz clazz) {
 		return studentsByClass.get(clazz);
 	}
+
+
+
 
 
 	

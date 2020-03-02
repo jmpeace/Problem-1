@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import problem1.model.Clazz;
+import problem1.model.Student;
 import problem1.persist.DATABASE;
 
 @WebServlet(name = "Classes", urlPatterns = {"/Classes/*"})
@@ -63,6 +64,50 @@ public class Classes extends HttpServlet {
 		}
 	}
 	
+	//UPDATE
+	protected void doPut(
+			HttpServletRequest request,
+			HttpServletResponse response) 
+					throws IOException, ServletException {
+
+		String pathInfo = request.getPathInfo();
+
+		if(pathInfo == null || pathInfo.equals("/")){
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+		String[] splits = pathInfo.split("/");
+		if(splits.length != 2) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+		String classCode = splits[1];
+		if(DATABASE.getStudents().get(classCode)==null) {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			return;
+		}
+
+		StringBuilder buffer = new StringBuilder();
+	    BufferedReader reader = request.getReader();
+	    String line;
+	    while ((line = reader.readLine()) != null) {
+	        buffer.append(line);
+	    }
+	    String payload = buffer.toString();
+	    
+	    Clazz clazz = (Clazz) Util.fromJson(payload, Clazz.class);
+	    try {
+			DATABASE.updateClass(clazz);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		}
+	    
+	    Util.printAsJson(response, classCode);
+	}
+	
+	//DELETE
 	protected void doDelete(
 			HttpServletRequest request,
 			HttpServletResponse response) 
