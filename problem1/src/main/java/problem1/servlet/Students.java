@@ -56,7 +56,7 @@ public class Students extends HttpServlet {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST);
 				return;
 			}
-			Util.printAsJson(response, DATABASE.getStudents().get(student.getStudentId()));
+			Util.printAsJson(response, student.getStudentId());
 			
 		} else {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST);

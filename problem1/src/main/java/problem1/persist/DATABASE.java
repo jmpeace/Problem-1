@@ -110,6 +110,20 @@ public class DATABASE {
 		//Create New
 		classes.put(id, clazz);
 		
+		//Assign Students
+		String studentsAssig = clazz.getStudentsAssig();
+		if(studentsAssig!=null)
+		{
+			String[] studentsAssigA = studentsAssig.split(",");
+			if(studentsAssig!=null&&classes.size()>0)
+			for(String studentAssig:studentsAssigA)
+			{
+				Student student = students.get(studentAssig);
+				
+				if(student!=null)
+				addStudentsClasses(clazz, student);
+			}
+		}
 	}
 
 	
