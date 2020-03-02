@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import problem1.model.Student;
-
 public class Util {
 	
 	private static final  String responseInError = "Undefined error.";
@@ -27,7 +25,7 @@ public class Util {
 		out.flush();
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public static Object fromJson(String json, Class clazz) {
 		
 		if(json==null) return null;

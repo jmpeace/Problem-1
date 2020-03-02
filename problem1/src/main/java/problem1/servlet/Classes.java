@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import problem1.model.Clazz;
-import problem1.model.Student;
 import problem1.persist.DATABASE;
 
 @WebServlet(name = "Classes", urlPatterns = {"/Classes/*"})
@@ -82,7 +81,7 @@ public class Classes extends HttpServlet {
 			return;
 		}
 		String classCode = splits[1];
-		if(DATABASE.getStudents().get(classCode)==null) {
+		if(DATABASE.getClasses().get(classCode)==null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
