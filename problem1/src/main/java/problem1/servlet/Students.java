@@ -17,7 +17,18 @@ public class Students extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Util.printAsJson(response,DATABASE.getStudents().values());
+		
+		String pathInfo = request.getPathInfo();
+		if(pathInfo == null || pathInfo.equals("/")){
+
+			Util.printAsJson(response, DATABASE.getStudents().values());
+			return;
+		}else
+		{
+			String studentId = pathInfo.split("/")[1];
+			Util.printAsJson(response, DATABASE.getStudents().get(studentId));
+			return;
+		}
 	}
 
 	

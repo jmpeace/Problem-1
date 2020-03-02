@@ -16,7 +16,21 @@ public class Classes extends HttpServlet {
 	private static final long serialVersionUID = 8703538427440037537L;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Util.printAsJson(response, DATABASE.getClasses().values());
+		
+		String pathInfo = request.getPathInfo();
+
+		if(pathInfo == null || pathInfo.equals("/")){
+
+			Util.printAsJson(response, DATABASE.getClasses().values());
+			return;
+		}else
+		{
+			String code = pathInfo.split("/")[1];
+			Util.printAsJson(response, DATABASE.getClasses().get(code));
+			return;
+		}
+		
+		
 	}
 
 	

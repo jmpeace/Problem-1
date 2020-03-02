@@ -10,7 +10,7 @@ public class Clazz {
 	private String code;
 	private String title;
 	private String description;
-	private String studentsDesc;
+	private String studentsAssig;
 	
 	transient private List<Student> students;
 	
@@ -42,8 +42,8 @@ public class Clazz {
 		return students;
 	}
 	
-	public String getStudentsDesc() {
-		return studentsDesc;
+	public String getStudentsAssig() {
+		return studentsAssig;
 	}
 
 	public void setStudentsByClass()
@@ -54,7 +54,7 @@ public class Clazz {
 		if(students!=null) {
 		for(Student student:students)
 			joiner.add(student.getStudentId());
-		studentsDesc = joiner.toString();}
+		studentsAssig = joiner.toString();}
 	}
 	
 	
